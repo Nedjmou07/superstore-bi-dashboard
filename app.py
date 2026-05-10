@@ -1,16 +1,14 @@
 import streamlit as st
-import sqlite3
 import pandas as pd
 import plotly.express as px
 
 st.set_page_config(page_title="Superstore BI Dashboard", layout="wide")
 st.title("📊 Superstore Business Intelligence Dashboard")
 
+
 @st.cache_data
 def load_data():
-    conn = sqlite3.connect(r"C:\Users\Quick tech\superstore-dashboard\superstore.db")
-    df = pd.read_sql_query("SELECT * FROM orders", conn)
-    conn.close()
+    df = pd.read_csv("data/raw/Sample - Superstore.csv", encoding="windows-1252")
     df["Order Date"] = pd.to_datetime(df["Order Date"], format="%m/%d/%Y")
     df["Month"] = df["Order Date"].dt.to_period("M").astype(str)
     return df
